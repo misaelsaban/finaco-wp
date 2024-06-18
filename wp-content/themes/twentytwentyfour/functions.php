@@ -204,3 +204,55 @@ if ( ! function_exists( 'twentytwentyfour_pattern_categories' ) ) :
 endif;
 
 add_action( 'init', 'twentytwentyfour_pattern_categories' );
+
+add_action('woocommerce_order_status_completed', 'send_custom_webhook_on_order_completion', 10, 1);
+
+function send_custom_webhook_on_order_completion($order_id) {
+    $order = wc_get_order($order_id);
+
+    if (!!$order) {
+
+		$webhook_url = 'http://localhost:8080/api/v1/compras';
+		$data = $order->get_data();
+		$items = $order->get_items();
+		$meta_data = [];
+
+		foreach( $items as $item_id => $item ){
+			$object = new stdClass;
+			$object->product = $item->get_product_id();
+			$object->quantity = $item->get_quantity();
+			$object->zone = $item->get_meta('zone');
+			$object->row = $item->get_meta('row');
+			$object->seat = $item->get_meta('seat');
+			$object->days = $item->get_meta('days');
+			array_push($meta_data, $object);
+		}
+
+		$payload = array(
+			'order_id' => $order->get_id(),
+			'total' => $order->get_total(),
+			'status' => $data['status'],
+			'customer_name' => $order->get_billing_first_name(),
+			'customer_lastname' => $order->get_billing_last_name(),
+			'customer_email' => $order->get_billing_email(),
+			'meta_data' => $meta_data,
+		);
+
+		$response = wp_remote_post($webhook_url, array(
+			'method' => 'POST',
+			'headers' => array(
+				'Content-Type' => 'application/json',
+			),
+			'body' => json_encode($payload),
+		));
+
+		// Uncomment the following lines for debugging purposes
+		// if (is_wp_error($response)) {
+		//     $error_message = $response->get_error_message();
+		//     error_log("Failed to send webhook: $error_message");
+		// } else {
+		//     $response_body = wp_remote_retrieve_body($response);
+		//     error_log("Webhook response: $response_body");
+		// }
+	}    
+}
