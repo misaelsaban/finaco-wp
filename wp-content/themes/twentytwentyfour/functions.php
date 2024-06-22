@@ -246,6 +246,10 @@ function send_custom_webhook_on_order_completion($order_id) {
 			'body' => json_encode($payload),
 		));
 
+		$response_body = wp_remote_retrieve_body($response);
+		$formatted_response = json_decode($response_body);
+		add_post_meta($order_id, 'response', $formatted_response);
+
 		// Uncomment the following lines for debugging purposes
 		// if (is_wp_error($response)) {
 		//     $error_message = $response->get_error_message();
@@ -256,3 +260,20 @@ function send_custom_webhook_on_order_completion($order_id) {
 		// }
 	}    
 }
+
+// Add custom meta box to display API response data on order edit screen
+add_action('woocommerce_admin_order_data_after_billing_address', 'display_api_response_data_on_order_edit');
+function display_api_response_data_on_order_edit($order){
+    // Get API response data from order meta
+	
+    $api_response = get_post_meta($order->get_id(), 'response');
+
+    // Output the API response data
+    if (!empty($api_response)) {
+        echo '<div class="order_data_column">';
+        echo '<h4>API Response Data</h4>';
+        echo '<p><strong>Response:</strong> ' . esc_html(json_encode($api_response[0])) . '</p>';
+        echo '</div>';
+    }
+}
+
