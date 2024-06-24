@@ -435,8 +435,8 @@ jQuery(function ($) {
 		}); 
 
 		// detect how many times original poligon can be enlarged
-		svg_mapping.css("width",svg_width);
-		svg_mapping.css("height",svg_height);
+		svg_mapping.css("width",svg_width+100);
+		svg_mapping.css("height",svg_height+100);
 
 		// get max scalability, calculate based on screen viewport
 		var max_x = (svg_width/2) / xl;
@@ -460,7 +460,7 @@ jQuery(function ($) {
 			max_y_prev = item.y * max_times;
 
 			max_first = false;
-			return px + " " + py;
+			return `${px+100} ${py+20}`;
 		}).join(' ');
 
 		// generate DOM elements
@@ -508,6 +508,9 @@ jQuery(function ($) {
 
 			var li = "";
 			var s = 0;
+			let isRowLabeled = [];
+			let isColLabeled = [];
+
 			while (s < tws){
 
 				// seat default coordinates
@@ -526,6 +529,21 @@ jQuery(function ($) {
 
 				// get seat HTML
 				var seat = structSeat(hall, z, s, height, x, y);
+
+				let foundRow = isRowLabeled.find((item) => item.row == hall.areas[z].seats.points[s].r)
+				let foundCol = isColLabeled.find((item) => item.col == hall.areas[z].seats.points[s].t)
+
+				if(!foundRow){
+					let label = setLabels(x-100,y+3,`FILA ${hall.areas[z].seats.points[s].r >= 10 ? hall.areas[z].seats.points[s].r : `0${hall.areas[z].seats.points[s].r}`}`)
+					svg_mapping.append(label);
+					isRowLabeled.push({row:hall.areas[z].seats.points[s].r,labeled:true})
+				}
+				
+				if(!foundCol){
+					let label = setLabels(`${hall.areas[z].seats.points[s].t >=10 ? x-10 : x-6}`,y-40,hall.areas[z].seats.points[s].t)
+					svg_mapping.append(label);
+					isColLabeled.push({col:hall.areas[z].seats.points[s].t,labeled:true})
+				}
 
 				// add seat to hall layout canvas
 				seat.g.obj = this;
@@ -855,6 +873,16 @@ jQuery(function ($) {
 		refreshSelectedTicket(tickets_global, hall, z, ticket_id);
 	}
 
+	function setLabels(x,y,label){
+		var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+		var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+		text.setAttribute('x', x);
+		text.setAttribute('y', y);
+		text.innerHTML = label;
+		g.appendChild(text);
+		return g;
+	}
+
 	// construct visual seat HTML code 
 	function structSeat(hall, z, i, height, x, y){
 
@@ -905,10 +933,16 @@ jQuery(function ($) {
 		text.setAttribute('title', "Seat Settings");
 		text.setAttribute('data-content', "test");
 
-		text.innerHTML = i+1;
+		// text.innerHTML = i+1;
 
 		// set custom assigned seat number
-		if(hall.areas[z].seats.points[i] !== undefined) if(hall.areas[z].seats.points[i]) if(hall.areas[z].seats.points[i].t) text.innerHTML = hall.areas[z].seats.points[i].t;
+		if(hall.areas[z].seats.points[i] !== undefined) {
+			if(hall.areas[z].seats.points[i]) {
+				if(hall.areas[z].seats.points[i].t) {
+					// text.innerHTML = hall.areas[z].seats.points[i].t;
+				}
+			}
+		}
 		
 		g.appendChild(circle);
 		g.appendChild(text);
