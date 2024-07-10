@@ -2,11 +2,11 @@
 const fs = require('fs');
 
 //Datos
-let rows = 2
-let columns = 10
+let rows = 5
+let columns = 18
 
-let ancho = 130
-let alto = 22
+let ancho = 320
+let alto = 85
 
 let sentido_columnas = 1//1 cresciente, 0 decresciente
 
@@ -15,43 +15,47 @@ let sentido_columnas = 1//1 cresciente, 0 decresciente
 let points = [];
 
 let alto_disponible = alto-20
-let partida_fila = ((alto_disponible / 2)*-1)//Offset Y
+let partida_fila = ((alto_disponible / 2)*-1)+12//Offset Y
 // let intervalo_fila = (alto_disponible / rows)
-let intervalo_fila = 10
+let intervalo_fila = 17.5
 
 let ancho_disponible = ancho-20
-let intervalo_columna = ancho_disponible / (columns - 1)
+let intervalo_columna = ancho_disponible / (columns -1)
 
-for(let i = 0; i<rows; i++){
+for(let i = 1; i<=rows; i++){
     
-    let partida_columna = ((ancho_disponible / 2)*-1)+16//Offset X
-    if(i==2){//Esto es solo para saltear la fucking fila 13 que no esta
-        // continue;
-    }
+    let partida_columna = ((ancho_disponible / 2)*-1)+81//Offset X
     if(sentido_columnas == 0){
         for(let j = columns; j>0; j--){
+            if(i>2 && j<=5){
 
-            points.push({
-                x: parseFloat((partida_columna).toFixed(2)),
-                y: parseFloat((partida_fila).toFixed(2)),
-                r: `${i+41}`,//Aca va segun arranque la fila en la zona
-                t: `${j+5}`,
-                p: "",
-                i: true
-            })
+            }else{
+                points.push({
+                    x: parseFloat((partida_columna).toFixed(2)),
+                    y: parseFloat((partida_fila).toFixed(2)),
+                    r: `${i+30}`,//Aca va segun arranque la fila en la zona
+                    t: `${j}`,
+                    p: "",
+                    i: true
+                })
+            }
+            
             partida_columna+=intervalo_columna;
         }
     } else{
-        for(let j = 0; j<columns; j++){
+        for(let j = 1; j<=columns; j++){
+            if(i>2 && j<=5){
 
-            points.push({
-                x: parseFloat(partida_columna.toFixed(2)),
-                y: parseFloat(partida_fila.toFixed(2)),
-                r: `${i+31}`,
-                t: `${j+1}`,
-                p: "",
-                i: true
-            })
+            }else{
+                points.push({
+                    x: parseFloat(partida_columna.toFixed(2)),
+                    y: parseFloat(partida_fila.toFixed(2)),
+                    r: `${i+30}`,
+                    t: `${j+18}`,
+                    p: "",
+                    i: true
+                })
+            }
             partida_columna+=intervalo_columna;
         }
     }
