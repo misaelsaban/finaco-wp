@@ -242,13 +242,14 @@ function send_custom_webhook_on_order_completion($order_id) {
 			'method' => 'POST',
 			'headers' => array(
 				'Content-Type' => 'application/json',
+				'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJc3N1ZXIgb2YgdGhlIEpXVCIsImF1ZCI6IkF1ZGllbmNlIHRoYXQgdGhlIEpXVCIsInN1YiI6IlN1YmplY3Qgb2YgdGhlIEpXVCIsImlhdCI6MTcyMDc5OTcwMiwiZXhwIjo0MzEyNzk5NzAyLCJpZF91c2VyIjoiMSIsImVtYWlsIjoibWlzYUBtaXNhLmNvbSJ9.batG7RymfWx3Kljd247f5_Aju_OwrEEYiStej6qi9ds' 
 			),
 			'body' => json_encode($payload),
 		));
 
 		$response_body = wp_remote_retrieve_body($response);
 		$formatted_response = json_decode($response_body);
-		add_post_meta($order_id, 'response', $formatted_response);
+		update_post_meta($order_id, 'response', $formatted_response);
 
 		// Uncomment the following lines for debugging purposes
 		// if (is_wp_error($response)) {
