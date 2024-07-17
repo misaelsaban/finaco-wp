@@ -162,12 +162,7 @@ function auto_complete_cod_orders($order_id) {
 		 $formatted_response = json_decode($response_body);
 		 update_post_meta($order_id, 'response', $formatted_response);
 
-		 setcookie("tickets_244", "", time()-(60*60*24*7));
-		 setcookie("tickets_245", "", time()-(60*60*24*7));
-		 unset($_COOKIE['tickets_244']);
-		 unset($_COOKIE['tickets_245']);
-		 
- 
+		 wp_redirect(home_url('/thankyou'));
 		 // Uncomment the following lines for debugging purposes
 		 // if (is_wp_error($response)) {
 		 //     $error_message = $response->get_error_message();
