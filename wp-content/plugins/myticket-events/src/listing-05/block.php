@@ -120,7 +120,6 @@ if ($attributes['serverSide']) {
 			</div>
 
 		</div>
-
 		<div class="stage-name">
 			<?php if ($attributes['title'] == '') { ?>
 				<h3>
@@ -149,69 +148,75 @@ if ($attributes['serverSide']) {
 				<span><?php if ($attributes['desc'] == '') { ?><?php echo esc_html(get_post_meta( $eid, 'myticket_title', '')[0]); ?><?php }else{ echo esc_html($attributes['desc']); } ?></span>
 			</p>
 		</div>
-
-		<?php if(strlen($attributes['filterLocations'])>100) : ?>
-		<script id="kenzap-hall-layout-code" type="application/json"><?php echo wp_kses_post( $attributes['filterLocations'] ); ?></script>
-		<?php else: 
-			
-			$fl = get_template_directory() . '/' . MYTICKET_SLUG . '/layouts/'.$attributes['filterLocations'].'.json';
-			if( !empty( $attributes['filterLocations'] ) )
-				if( file_exists( $fl ) )
-					$layout = file_get_contents ( $fl ); ?>
-		<script id="kenzap-hall-layout-code" type="application/json"><?php echo wp_kses_post( $layout ); ?></script>
-		<?php endif; ?>
 		
-		<div id="kp_wrapper" class="kp_wrapper">
-			<?php if (in_array('administrator', (array) $user->roles)) { ?>
-				<div style="text-align:center;font-size:11px;"><?php echo esc_html__('Note: During admin mode you can cancel bookings by double clicking on the seat.', 'myticket-events'); ?></div>
-			<?php } ?>
-			<div id="kp_image" style="opacity:0.2; display: block; max-width: <?php echo esc_attr($attributes['dwidth']); ?>px;min-width: <?php echo esc_attr($attributes['mwidth']); ?>px;" class="kp_image">
-				<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" alt="#" id="myticket_img" usemap="#map">
-				<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg" class="kp_svg noselect" style="display: block;">
-					<g data-id="fTbTcx" data-title="" data-tws="0" data-tns="0" data-height="100">
-				</svg>
-				<map name="map"></map>
-			</div>
-		</div>
-
-		<div id="variation_cont_zone" class="variation_cont" >
-			<div class="var_toolbar">
-				<div class="var_toolbar_close"><span class="times">&times;</span></div>
-			</div>
-			<div class="variation_cont_inner" >
-				<h2><?php echo esc_html__('Select ticket type', 'myticket-events'); ?></h2>
-				<div>
-					<ul class="pvar">
-
-					</ul>
+		<div class="misa-container col-full">
+			<div class="misa">
+				<?php if(strlen($attributes['filterLocations'])>100) : ?>
+				<script id="kenzap-hall-layout-code" type="application/json"><?php echo wp_kses_post( $attributes['filterLocations'] ); ?></script>
+				<?php else: 
+					
+					$fl = get_template_directory() . '/' . MYTICKET_SLUG . '/layouts/'.$attributes['filterLocations'].'.json';
+					if( !empty( $attributes['filterLocations'] ) )
+						if( file_exists( $fl ) )
+							$layout = file_get_contents ( $fl ); ?>
+				<script id="kenzap-hall-layout-code" type="application/json"><?php echo wp_kses_post( $layout ); ?></script>
+				<?php endif; ?>
+				
+				<div id="kp_wrapper" class="kp_wrapper">
+					<?php if (in_array('administrator', (array) $user->roles)) { ?>
+						<div style="text-align:center;font-size:11px;"><?php echo esc_html__('Note: During admin mode you can cancel bookings by double clicking on the seat.', 'myticket-events'); ?></div>
+					<?php } ?>
+					<div id="kp_image" style="opacity:0.2; display: block; max-width: <?php echo esc_attr($attributes['dwidth']); ?>px;min-width: <?php echo esc_attr($attributes['mwidth']); ?>px;" class="kp_image">
+						<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" alt="#" id="myticket_img" usemap="#map">
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg" class="kp_svg noselect" style="display: block;">
+							<g data-id="fTbTcx" data-title="" data-tws="0" data-tns="0" data-height="100">
+						</svg>
+						<map name="map"></map>
+					</div>
 				</div>
 			</div>
+			
+			<div class="misa2">
+				<div id="variation_cont_zone" class="variation_cont" >
+					<div class="var_toolbar">
+						<div class="var_toolbar_close"><span class="times">&times;</span></div>
+					</div>
+					<div class="variation_cont_inner" >
+						<h2><?php echo esc_html__('Select ticket type', 'myticket-events'); ?></h2>
+						<div>
+							<ul class="pvar">
+
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="seat-label">
+					<ul>
+						<li><?php echo esc_html__('Available', 'myticket-events'); ?></li>
+						<li><?php echo esc_html__('Sold Out', 'myticket-events'); ?></li>
+						<li><?php echo esc_html__('Selected', 'myticket-events'); ?></li>
+					</ul>
+				</div>
+
+				<?php if ($attributes['note'] != '') { ?><p class="seat-info"><?php echo esc_html($attributes['note']); ?></p><?php } ?>
+
+				<div class="ticket-price">
+
+					<?php 
+					// load summary table template
+					$override_template_path = get_template_directory() . '/' . MYTICKET_SLUG . '/layouts/'.$attributes['tableLayout'].'.php';
+					if ( file_exists($override_template_path) ){
+						include $override_template_path;
+					}else{
+						include MYTICKET_PATH . 'templates/layouts/summary-table-default.php';
+					} ?>
+
+				</div>
+
+				<a class="kp-btn-reserve" href="#"><?php echo esc_html($attributes['cta']); ?></a>
+			</div>
 		</div>
-
-		<div class="seat-label">
-			<ul>
-				<li><?php echo esc_html__('Available', 'myticket-events'); ?></li>
-				<li><?php echo esc_html__('Sold Out', 'myticket-events'); ?></li>
-				<li><?php echo esc_html__('Selected', 'myticket-events'); ?></li>
-			</ul>
-		</div>
-
-		<?php if ($attributes['note'] != '') { ?><p class="seat-info"><?php echo esc_html($attributes['note']); ?></p><?php } ?>
-
-		<div class="ticket-price">
-
-			<?php 
-			// load summary table template
-			$override_template_path = get_template_directory() . '/' . MYTICKET_SLUG . '/layouts/'.$attributes['tableLayout'].'.php';
-			if ( file_exists($override_template_path) ){
-				include $override_template_path;
-			}else{
-				include MYTICKET_PATH . 'templates/layouts/summary-table-default.php';
-			} ?>
-
-		</div>
-
-		<a class="kp-btn-reserve" href="#"><?php echo esc_html($attributes['cta']); ?></a>
 	</div>
 <?php }
 
