@@ -76,19 +76,36 @@ if ( version_compare( get_bloginfo( 'version' ), '4.7.3', '>=' ) && ( is_admin()
 
 
 
-// define the woocommerce_available_payment_gateways callback 
-function restrict_cod_to_admin_users($available_gateways) {
-    // Check if COD is enabled
-    if (isset($available_gateways['cod'])) {
-        // Check if the current user is an administrator
-        if (!current_user_can('administrator')) {
-            // Remove COD from available gateways for non-admin users
+ function restrict_cod_payment_gateway($available_gateways) {
+    // Check if the current user is logged in
+    if (is_user_logged_in()) {
+        // Get the current user's data
+        $current_user = wp_get_current_user();
+        
+        // Define roles that are allowed to use COD
+        $allowed_roles = array('administrator', 'staff');
+
+        // Check if the user has any of the allowed roles
+        $has_allowed_role = false;
+        foreach ($allowed_roles as $role) {
+            if (in_array($role, $current_user->roles)) {
+                $has_allowed_role = true;
+                break;
+            }
+        }
+
+        // If the user does not have an allowed role, remove COD
+        if (!$has_allowed_role) {
             unset($available_gateways['cod']);
         }
+    } else {
+        // If the user is not logged in, remove COD
+        unset($available_gateways['cod']);
     }
+
     return $available_gateways;
 }
-add_filter( 'woocommerce_available_payment_gateways', 'restrict_cod_to_admin_users');
+add_filter('woocommerce_available_payment_gateways', 'restrict_cod_payment_gateway');
 
 
 // Autocompletamos Las Ordenes que lleguen por COD
@@ -162,7 +179,7 @@ function auto_complete_cod_orders($order_id) {
 		 $formatted_response = json_decode($response_body);
 		 update_post_meta($order_id, 'response', $formatted_response);
 
-		 wp_redirect(home_url('/thankyou'));
+		 //wp_redirect(home_url('/thankyou'));
 		 // Uncomment the following lines for debugging purposes
 		 // if (is_wp_error($response)) {
 		 //     $error_message = $response->get_error_message();
@@ -189,3 +206,17 @@ function auto_complete_cod_orders($order_id) {
 		 echo '</div>';
 	 }
  }
+
+ function custom_redirect_after_purchase($order_id) {
+
+    $order = wc_get_order($order_id);
+
+	$thankyou_page_url = site_url('/thankyou');
+
+	$order->update_status('completed');
+
+	wp_redirect($thankyou_page_url);
+	exit;
+
+}
+add_action('woocommerce_thankyou', 'custom_redirect_after_purchase');

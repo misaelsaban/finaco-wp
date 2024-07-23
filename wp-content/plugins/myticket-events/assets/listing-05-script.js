@@ -1080,7 +1080,7 @@ jQuery(function ($) {
 						});
 
 						// render
-						$(".seat_head .row1").html("<b>"+hall_js.areas[zone_id].seats.title + "</b>" + " &nbsp;" + (tns-bi-pass_count.length)+" "+$(khl).data("tickets_left"));
+						$(".seat_head .row1").html("<b>Zona: " + hall.areas[index].seats.title + " - Precio: $" + hall.areas[index].seats.price + "</b>" + " &nbsp;" + (tns-bi-pass_count.length)+" "+$(khl).data("tickets_left"));
 					}
 
 					bi_prev = bi;
@@ -1246,7 +1246,7 @@ jQuery(function ($) {
 
 		// trim last space and coma 
 		// if(output.length>1){  output = output.substring(0, output.length-2); }
-		if(typeof(hall.areas[index]) !== 'undefined') $(".seat_head .row1").html("<b>" + hall.areas[index].seats.title + "</b>");
+		if(typeof(hall.areas[index]) !== 'undefined') $(".seat_head .row1").html("<b>Zona: " + hall.areas[index].seats.title + " - Precio: $" + hall.areas[index].seats.price + "</b>");
 		$(".selected_seats").html(output);
 
 		if(output==""){$(".sel_texts").fadeOut(0);}else{$(".sel_texts").fadeIn(0);}

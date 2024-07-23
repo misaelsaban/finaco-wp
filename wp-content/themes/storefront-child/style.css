@@ -301,3 +301,7 @@ td.actions {
         overflow-y: hidden;
     }
 }
+
+.sub-menu{
+    background-color: #434343;
+  }

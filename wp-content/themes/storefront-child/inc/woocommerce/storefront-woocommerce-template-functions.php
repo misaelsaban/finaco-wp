@@ -688,10 +688,10 @@ if ( ! function_exists( 'storefront_handheld_footer_bar' ) ) {
 	 */
 	function storefront_handheld_footer_bar() {
 		$links = array(
-			'my-account' => array(
-				'priority' => 10,
-				'callback' => 'storefront_handheld_footer_bar_account_link',
-			),
+			// 'my-account' => array(
+			// 	'priority' => 10,
+			// 	'callback' => 'storefront_handheld_footer_bar_account_link',
+			// ),
 			'search'     => array(
 				'priority' => 20,
 				'callback' => 'storefront_handheld_footer_bar_search',
