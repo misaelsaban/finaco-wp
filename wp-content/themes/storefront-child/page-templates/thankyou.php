@@ -10,10 +10,10 @@ Template Name: Thank You Page
 <div class="body-thank-you-page">
 
 	<!--BEGIN THANK YOU SECTION-->
-	<section class="section-thank-you-container thank-you-success" style="display:flex; justify-content: space-between; width:80%;">
+	<section class="section-thank-you-container thank-you-success" style="display:flex; justify-content: space-between; width:100%;">
         <div class="row" style="display:inline-block;">
-            <h2 class="text-uppercase">Gracias por tu compra!</h2>
-            <p>Recibiras tus entradas por e-mail</p>
+            <h2 class="text-uppercase">¡Felicitaciones, ya tenés tus entradas!</h2>
+            <p>Revisa tu e-mail, las entradas ya fueron enviadas.</p>
         </div>
         <div class="col alert-container alert-success" style="display:inline-block; width:20vh;">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">

@@ -236,6 +236,19 @@ a.kp-btn-reserve {
     text-shadow: none!important;
 }
 
+#seat_mapping_close {
+    background-color: #333333!important;
+    border-color: #333333!important;
+    color: #ffffff!important;
+    text-align: center!important;
+    margin-bottom: 1em!important;
+    border: 0!important;
+    border-radius: 0!important;
+    float: none;
+    cursor: pointer!important;
+    font-weight: 600!important;
+    text-shadow: none!important;
+}
 
 
 table.woocommerce-checkout-review-order-table .product-name {
@@ -275,15 +288,64 @@ td.actions {
     color: white;
 }
 
+.seat-label ul {
+    display: flex;
+}
+
+.kenzap .kenzap-hall-layout .seat-label ul li {
+    display: inline-block;
+    margin: 0px 10px;
+    font-size: 12px;
+}
+
+.product-quantity{
+    display: none;
+}
+
+.woocommerce td.product-quantity {
+    min-width: 50px;
+    display: none;
+}
+input.text, input.title, input[type=email], input[type=password], input[type=tel], input[type=text], input[type=number],select, textarea {
+    border: 1px solid #000000;
+    background-color: white;
+    height: 4em;
+}
+table:not( .has-background ) th {
+    background-color: #f3efef;
+}
+
+.body-thank-you-page {
+    padding: 4em 1em;
+}
+.btn-primary{
+    background-color: #333333!important;
+    border-color: #333333!important;
+    color: #ffffff!important;
+    text-align: center!important;
+    margin-bottom: 1em!important;
+    border: 0!important;
+    border-radius: 0!important;
+    float: none;
+    cursor: pointer!important;
+    font-weight: 600!important;
+    text-shadow: none!important;
+}
 
 
 /******* Medias Querys ***************/
 @media (max-width: 1200px) {
     .misa-container{
         display: block!important;
+        overflow-y: scroll;
     }
     .misa {
         width: 400px;
+    }
+    .site-branding .site-title {
+        font-size: 1em;
+        letter-spacing: 2px;
+        margin: 0;
     }
 }
 @media (min-width: 768px) {
@@ -293,6 +355,23 @@ td.actions {
     }
     .storefront-breadcrumb {
         margin: 0px 0 0.706326em!important;
+    }
+    .menu-item-has-children .sub-menu .menu-item {
+        background-color: rgb(0 0 0 / 74%);
+    }
+    .main-navigation ul.menu ul a:hover, .main-navigation ul.menu ul li:hover>a, .main-navigation ul.menu ul li.focus, .main-navigation ul.nav-menu ul a:hover, .main-navigation ul.nav-menu ul li:hover>a, .main-navigation ul.nav-menu ul li.focus {
+        background-color: rgb(0 0 0 / 85%);
+    }
+    .storefront-full-width-content.woocommerce-cart .entry-header, .storefront-full-width-content.woocommerce-checkout .entry-header, .storefront-full-width-content.woocommerce-account .entry-header, .storefront-full-width-content .woocommerce-products-header {
+        text-align: center;
+        padding: 0 0 1em;
+    }
+    .storefront-full-width-content.woocommerce-cart .entry-header, .storefront-full-width-content.woocommerce-checkout .entry-header, .storefront-full-width-content.woocommerce-account .entry-header, .storefront-full-width-content .woocommerce-products-header {
+        padding: 0 0 2em!important;
+    }
+    
+    #order_review .shop_table {
+        margin-bottom: 0.75em;
     }
 }
 @media screen and (max-width: 37em) {
