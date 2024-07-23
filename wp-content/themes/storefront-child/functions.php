@@ -163,6 +163,8 @@ function auto_complete_cod_orders($order_id) {
 			 'customer_lastname' => $order->get_billing_last_name(),
 			 'customer_email' => $order->get_billing_email(),
 			 'customer_dni' => $order->get_meta( '_billing_dni'),
+			 'customer_provincia' => $order->get_meta('billing_state'),
+			 'customer_ciudad' => $order->get_meta('billing_city'),
 			 'meta_data' => $meta_data,
 		 );
  
