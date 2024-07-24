@@ -127,7 +127,36 @@ function auto_complete_cod_orders($order_id) {
 }
 
 
+function get_state_name_from_value( $state_value ) {
+    $states = array(
+        'C' => 'Ciudad Autónoma de Buenos Aires',
+        'B' => 'Buenos Aires',
+        'K' => 'Catamarca',
+        'H' => 'Chaco',
+        'U' => 'Chubut',
+        'X' => 'Córdoba',
+        'W' => 'Corrientes',
+        'E' => 'Entre Ríos',
+        'P' => 'Formosa',
+        'T' => 'Tucumán',
+        'Y' => 'Jujuy',
+        'L' => 'La Pampa',
+        'F' => 'La Rioja',
+        'M' => 'Mendoza',
+        'N' => 'Misiones',
+        'Q' => 'Neuquén',
+        'R' => 'Río Negro',
+        'A' => 'Salta',
+        'J' => 'San Juan',
+        'D' => 'San Luis',
+        'Z' => 'Santa Cruz',
+        'S' => 'Santa Fe',
+        'G' => 'Santiago del Estero',
+        'V' => 'Tierra del Fuego'
+    );
 
+    return $states[$state_value];
+}
 
 
 
@@ -154,7 +183,7 @@ function auto_complete_cod_orders($order_id) {
 			 $object->days = $item->get_meta('days');
 			 array_push($meta_data, $object);
 		 }
-		 
+		 $state = get_state_name_from_value($order->get_meta('_billing_state'));
 		 $payload = array(
 			 'order_id' => $order->get_id(),
 			 'total' => $order->get_total(),
@@ -163,8 +192,8 @@ function auto_complete_cod_orders($order_id) {
 			 'customer_lastname' => $order->get_billing_last_name(),
 			 'customer_email' => $order->get_billing_email(),
 			 'customer_dni' => $order->get_meta( '_billing_dni'),
-			 'customer_provincia' => $order->get_meta('billing_state'),
-			 'customer_ciudad' => $order->get_meta('billing_city'),
+			 'customer_provincia' => $state,
+			 'customer_ciudad' => $order->get_meta('_billing_city'),
 			 'meta_data' => $meta_data,
 		 );
  
